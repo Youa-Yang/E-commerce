@@ -49,7 +49,7 @@ CustomerCity VARCHAR(20) NOT NULL,
 CustomerState CHAR(2) NOT NULL,
 CustomerZipCode VARCHAR(10) NOT NULL,
 CustomerID NUMERIC(11,0) NOt NULL,
-CONSTRAINT BillingAddressID_PK PRIMARY KEY(BillingAddressID)
+CONSTRAINT BillingAddressID_PK PRIMARY KEY(BillingAddressID),
 CONSTRAINT CustomerID_FK1 FOREIGN KEY (CustomerID) REFERENCES Customer_T(CustomerID));
 
 CREATE TABLE ShippingAddress_T
@@ -59,8 +59,8 @@ CustomerCity VARCHAR(20) NOT NULL,
 CustomerState CHAR(2) NOT NULL,
 CustomerZipCode VARCHAR(10) NOT NULL,
 CustomerID NUMERIC(11,0) NOt NULL,
-CONSTRAINT ShippingAddressID_PK PRIMARY KEY(ShippingAddressID)
-CONSTRAINT CustomerID_FK1 FOREIGN KEY (CustomerID) REFERENCES Customer_T(CustomerID));
+CONSTRAINT ShippingAddressID_PK PRIMARY KEY(ShippingAddressID),
+CONSTRAINT CustomerID_FK FOREIGN KEY (CustomerID) REFERENCES Customer_T(CustomerID));
 
 
 
