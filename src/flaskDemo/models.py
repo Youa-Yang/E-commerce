@@ -1,7 +1,12 @@
 from datetime import datetime
 from flaskDemo import db, login_manager
 from flask_login import UserMixin
+from functools import partial
+from sqlalchemy import orm
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref
 
+db.Model.metadata.reflect(db.engine)
 
 @login_manager.user_loader
 def load_user(user_id):
