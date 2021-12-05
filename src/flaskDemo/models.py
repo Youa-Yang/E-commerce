@@ -1,6 +1,12 @@
 from datetime import datetime
 from flaskDemo import db, login_manager
 from flask_login import UserMixin
+from functools import partial
+from sqlalchemy import orm
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref
+
+db.Model.metadata.reflect(db.engine)
 
 
 @login_manager.user_loader
@@ -9,6 +15,7 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -21,6 +28,7 @@ class User(db.Model, UserMixin):
 
 
 class Post(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -29,7 +37,9 @@ class Post(db.Model):
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
-    
+
+
+
 class Customer_T(db.Model):
     __table__ = db.Model.metadata.tables['customer_t']
 
@@ -40,10 +50,10 @@ class Product_T(db.Model):
     __table__ = db.Model.metadata.tables['product_t']
 
 class OrderLine_T(db.Model):
-    __table__ = db.Model.metadata.tables['orderLine_t']
+    __table__ = db.Model.metadata.tables['orderline_t']
 
 class BillingAddress_T(db.Model):
-    __table__ = db.Model.metadata.tables['billingAddress_t']
+    __table__ = db.Model.metadata.tables['billingaddress_t']
 
 class ShippingAddress_T(db.Model):
-    __table__ = db.Model.metadata.tables['shippingAddress_t']
+    __table__ = db.Model.metadata.tables['shippingaddress_t']

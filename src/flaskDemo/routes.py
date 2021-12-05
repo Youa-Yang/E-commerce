@@ -4,22 +4,6 @@ from flaskDemo.forms import RegistrationForm, LoginForm
 from flaskDemo.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
-
-products= [
-    {
-        'category': 'KNIT MINI SKIRT',
-        'description': 'HIGH-WAISTED MINI SKIRT WITH ELASTIC WAISTBAND. A-LINE SILHOUETTE.',
-        'color': 'Black',
-        'price': '22.00'
-    },
-    {
-       'category': 'SLEEVELESS KNIT TOP',
-        'description': 'FULL CUT ROUND NECK SLEEVELESS TOP.',
-        'color': 'White',
-        'price': '35.90'
-    }
-]
-
 @app.route("/")
 @app.route("/home")
 def home():
@@ -72,3 +56,40 @@ def logout():
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+
+@app.route("/product/<productId>")
+@login_required
+def product(productId):
+    assign = Product_T.query.get_or_404(productId);
+    return render_template('assign.html',title=str(assign.ProductDescriprion)+"_"
+                           +str(productId),assign=assign, now=datetime.utcnow())
+
+@app.route("/view/<productId>/delete", methods=['POST'])
+@login_required
+def delete_product(productId):
+    empProject = Product_T.query.get_or_404(productId);
+    db.session.delete(empProject)
+    db.session.commit()
+    flash('The employee has been removed from the project', 'success')
+    return redirect(url_for('home'))
+
+
+@app.route("/assign/new", methods=['GET', 'POST'])
+@login_required
+def add_product():   
+    form = AssignForm()       
+    if form.validate_on_submit():
+        assign = Works_On(essn=form.essn.data, pno=form.pno.data, hours=0)
+        db.session.add(assign)
+        db.session.commit()
+        flash(f'You have assigned employee to the project!', 'success')
+        return redirect(url_for('home'))            
+    return render_template('assign_employee.html', title='New Assignment',
+                           form=form, legend='New Assignment')
+
+@app.route("/")
+@app.route("/home")
+def customers():
+    results = Customer_T.query.all()
+    return render_template('customers.html', outString = results)
