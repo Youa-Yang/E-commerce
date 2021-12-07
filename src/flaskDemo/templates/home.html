@@ -7,7 +7,7 @@
               <a class="mr-2" href="#">{{ post.CategoryID }}</a>
               <small class="text-muted">{{ post.ProductColor}}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ post.ProductDescription }}</a></h2>
+            <h2><a class="article-title" href="{{ url_for('product', productId=post.ProductID) }}">{{ post.ProductDescription }}</a></h2>
             <p class="article-content">{{ post.ProductPrice }}</p>
           </div>
         </article>
