@@ -75,18 +75,22 @@ def delete_product(productId):
     return redirect(url_for('home'))
 
 
-@app.route("/assign/new", methods=['GET', 'POST'])
+@app.route("/product/new", methods=['GET', 'POST'])
 @login_required
-def add_product():   
-    form = AssignForm()       
+def add_product():
+    form = ProductForm()
+   # max_id = Product_T.query(func.max(Product_T.ProductID))
     if form.validate_on_submit():
-        assign = Works_On(essn=form.essn.data, pno=form.pno.data, hours=0)
-        db.session.add(assign)
+        #max_id = Product_T.query(func.max(Product_T.ProductID))
+        product = Product_T(ProductID = 7,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
+        ProductAvailableQuantity=form.quantity.data, ProductSize = form.size.data,
+        ProductPrice= form.price.data, CategoryID = form.category.data,ProductImageFileName = form.image.data);
+        db.session.add(product)
         db.session.commit()
-        flash(f'You have assigned employee to the project!', 'success')
-        return redirect(url_for('home'))            
-    return render_template('assign_employee.html', title='New Assignment',
-                           form=form, legend='New Assignment')
+        flash('Your product has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('add_product.html', title='Add new product',
+                           form=form, legend='New Product')
 
 @app.route("/")
 @app.route("/home")
