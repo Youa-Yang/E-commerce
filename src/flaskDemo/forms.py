@@ -1,7 +1,26 @@
+from flaskDemo.models import Product_T,Category_T
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField, SelectField, HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flaskDemo.models import User
+
+
+sizes = Product_T.query.with_entities(Product_T.ProductSize).distinct();
+categories = Category_T.query.with_entities(Category_T.CategoryID, Category_T.CategoryType).distinct();
+
+sizes_list = list();
+categories_list = list();
+
+for row in sizes:
+    rowDict=row._asdict()
+    sizes_list.append(rowDict)
+    sizes_choice = [(row['ProductSize'],(row['ProductSize'])) for row in sizes]
+
+for row in categories :
+    rowDict=row._asdict()
+    categories_list .append(rowDict)
+    categories_choice = [(row['CategoryID'],row['CategoryType']) for row in categories]
 
 
 class RegistrationForm(FlaskForm):
@@ -25,9 +44,20 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That email is taken. Please choose a different one.')
 
 
+
 class LoginForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class ProductForm(FlaskForm):
+    productName = TextAreaField('Product Description', validators=[DataRequired()])
+    productColor = StringField('Product Color', validators=[DataRequired()])
+    image = FileField('Product Image', validators=[FileAllowed(['jpg', 'png'])])
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    price = IntegerField('Product price', validators=[DataRequired()])
+    size = SelectField("Size", choices=sizes_choice);
+    category = SelectField("Category", choices=categories_choice);
+    submit = SubmitField('Add product')
