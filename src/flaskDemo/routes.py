@@ -11,7 +11,13 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=products)
+
+
+    results = Product_T.query.all()
+    #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
+    #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
+    return render_template('home.html', outString = results)
+    
 
 
 @app.route("/about")
@@ -25,7 +31,7 @@ def save_picture(form_picture):
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
 
-    output_size = (225, 225)
+    output_size = (125, 125)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
@@ -79,17 +85,17 @@ def account():
 @app.route("/product/<productId>")
 @login_required
 def product(productId):
-    assign = Product_T.query.get_or_404(productId);
-    return render_template('assign.html',title=str(assign.ProductDescriprion)+"_"
-                           +str(productId),assign=assign, now=datetime.utcnow())
+    product = Product_T.query.get_or_404(productId);
+    return render_template('product.html',title=str(product.ProductDescription)+"_"
+                           +str(productId),product=product)
 
-@app.route("/view/<productId>/delete", methods=['POST'])
+@app.route("/product/<productId>/delete", methods=['POST'])
 @login_required
 def delete_product(productId):
-    empProject = Product_T.query.get_or_404(productId);
-    db.session.delete(empProject)
+    product = Product_T.query.get_or_404(productId);
+    db.session.delete(product)
     db.session.commit()
-    flash('The employee has been removed from the project', 'success')
+    flash('The product has been removed from the project', 'success')
     return redirect(url_for('home'))
 
 
@@ -100,7 +106,7 @@ def add_product():
    # max_id = Product_T.query(func.max(Product_T.ProductID))
     if form.validate_on_submit():
         #max_id = Product_T.query(func.max(Product_T.ProductID))
-        product = Product_T(ProductID = 7,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
+        product = Product_T(ProductID = 8,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
         ProductAvailableQuantity=form.quantity.data, ProductSize = form.size.data,
         ProductPrice= form.price.data, CategoryID = form.category.data,ProductImageFileName = form.image.data);
         db.session.add(product)
