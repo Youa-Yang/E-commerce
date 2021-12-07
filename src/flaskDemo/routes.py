@@ -115,3 +115,22 @@ def add_product():
 def customers():
     results = Customer_T.query.all()
     return render_template('customers.html', outString = results)
+
+
+@app.route("/product/<productId>/update", methods=['GET', 'POST'])
+@login_required
+def update_product(productId):
+    product = Product_T.query.get_or_404(productId);
+
+    form = ProductForm()
+    if form.validate_on_submit():
+        product.ProductDescription = form.productName.data
+        product.ProductPrice = form.price.data
+        db.session.commit()
+        flash('Your product has been updated!', 'success')
+        return redirect(url_for('product', productId=product.ProductID))
+    elif request.method == 'GET':
+        form.productName.data = product.ProductDescription
+        form.price.data = product.ProductPrice
+    return render_template('add_product.html', title='Update Product',
+                           form=form, legend='Update Product')    
