@@ -50,4 +50,22 @@ INSERT INTO `shippingaddress_t` (`ShippingAddressID`, `CustomerStreet`, `Custome
 ('115', '220 Hale Avenue', 'Chicago', 'Il', '60066', '1111'),
 ('116', '333 Yellow Rd', 'Oz', 'KS', '72345', '3330');
 
+INSERT INTO size_t
+VALUE 
+(1,"XS"),
+(2,"S"),
+(3,"M"),
+(4,"L"),
+(5,"XL");
+
+INSERT INTO color_t
+VALUE 
+(01,"Red"),
+(02,"Blue"),
+(03,"Green"),
+(04,"Yellow"),
+(05,"White"),
+(06,"Black"),
+(07,"Orange"),
+(08,"Purple");
 
