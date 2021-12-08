@@ -33,12 +33,12 @@ INSERT INTO `order_t` (`OrderID`, `OrderDate`, `OrderStatus`, `CustomerID`) VALU
 
 
 
-INSERT INTO `product_t` (`ProductID`, `ProductDescription`, `ProductSize`, `ProductPrice`, `ProductColor`, `ProductAvailableQuantity`, `ProductSKUCode`, `ProductImageFileName`, `CategoryID`) VALUES
-('1', 'High-waisted mini skirt with elastic waistband.', 'S', '50.25', 'Blue', '15', '123456', 'Image01', '1'),
-('2', 'Mid-rise pants with side pockets and back false welt pockets. \r\nFront zip, metal hook, and interior button closure.', 'M', '45.90', 'Blue', '15', '159753', 'Image02', '4'),
-('3', 'Petite recycled lace trim long sleeve mini dress', 'L', '20.20', 'Blue', '15', '165412', 'Image03', '3'),
-('4', 'Strap detail slip dress', 'S', '74.00', 'Gold', '15', '147258', 'Image04', '3'),
-('5', 'Full cut round neck sleeveless top', 'M', '85.89', 'Black', '15', '258369', 'Image05', '2');
+INSERT INTO `product_t` (`ProductID`, `ProductDescription`, `ProductSize`, `ProductPrice`, `ProductColor`, `ProductAvailableQuantity`, `ProductSKUCode`, `ProductImageFileName`, `CategoryID`, ColorID, SizeID) VALUES
+('1', 'High-waisted mini skirt with elastic waistband.', 'S', '50.25', 'Blue', '15', '123456', 'Image01', '1', '2', '2'),
+('2', 'Mid-rise pants with side pockets and back false welt pockets. \r\nFront zip, metal hook, and interior button closure.', 'M', '45.90', 'Blue', '15', '159753', 'Image02', '4', '2', '3'),
+('3', 'Petite recycled lace trim long sleeve mini dress', 'L', '20.20', 'Blue', '15', '165412', 'Image03', '3', '2', '4'),
+('4', 'Strap detail slip dress', 'S', '74.00', 'Yellow', '15', '147258', 'Image04', '3', '4', '2' ),
+('5', 'Full cut round neck sleeveless top', 'M', '85.89', 'Black', '15', '258369', 'Image05', '2', '6','3');
 
 
 INSERT INTO `shippingaddress_t` (`ShippingAddressID`, `CustomerStreet`, `CustomerCity`, `CustomerState`, `CustomerZipCode`, `CustomerID`) VALUES
