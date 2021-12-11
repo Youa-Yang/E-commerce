@@ -4,19 +4,28 @@ from PIL import Image
 from sqlalchemy import func
 from flask import render_template, url_for, flash, redirect, request
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm
+from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm,AddToCartForm, CartUpdateForm
 from flaskDemo.models import User, Post,Customer_T,Order_T,Product_T,OrderLine_T,BillingAddress_T,ShippingAddress_T,Category_T
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/home")
 def home():
-
-
     results = Product_T.query.all()
     #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
     #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
     return render_template('home.html', outString = results)
+    
+
+
+@app.route("/")
+@app.route("/homeAdmin")
+def homeAdmin():
+    results = Product_T.query.all()
+    #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
+    #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
+    return render_template('homeAdmin.html', outString = results)
+
     
 
 
@@ -76,12 +85,27 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file, form=form)
 
-
+#customer view
 @app.route("/product/<productId>")
 @login_required
 def product(productId):
@@ -89,14 +113,23 @@ def product(productId):
     return render_template('product.html',title=str(product.ProductDescription)+"_"
                            +str(productId),product=product)
 
-@app.route("/product/<productId>/delete", methods=['POST'])
+
+#admin view
+@app.route("/productAdmin/<productId>")
+@login_required
+def productAdmin(productId):
+    product = Product_T.query.get_or_404(productId);
+    return render_template('productAdmin.html',title=str(product.ProductDescription)+"_"
+                           +str(productId),product=product)  
+
+@app.route("/productAdmin/<productId>/delete", methods=['POST'])
 @login_required
 def delete_product(productId):
     product = Product_T.query.get_or_404(productId);
     db.session.delete(product)
     db.session.commit()
     flash('The product has been removed from the project', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('homeAdmin'))
 
 
 @app.route("/product/new", methods=['GET', 'POST'])
