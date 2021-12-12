@@ -18,7 +18,7 @@ INSERT INTO `billingaddress_t` (`BillingAddressID`, `CustomerStreet`, `CustomerC
 CREATE TABLE `category_t` (
   `CategoryID` decimal(2,0) NOT NULL,
   `CategoryType` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `category_t` (`CategoryID`, `CategoryType`) VALUES
@@ -32,7 +32,7 @@ INSERT INTO `category_t` (`CategoryID`, `CategoryType`) VALUES
 CREATE TABLE `color_t` (
   `ColorID` decimal(2,0) NOT NULL,
   `Color` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `color_t` (`ColorID`, `Color`) VALUES
@@ -53,10 +53,11 @@ CREATE TABLE `customer_t` (
   `CustomerPhoneNumber` decimal(11,0) NOT NULL);
 
 
-INSERT INTO `customer_t` (`CustomerID`, `CustomerName', `id`, `CustomerPhoneNumber`) VALUES
-('1111', 'Alex Jones', '1',  '122'),
-('2220', 'Jane Smith', '2', '99'),
-('3330', 'Ali Fang', '3', '889');
+INSERT INTO `customer_t` (`CustomerID`, `CustomerName', `CustomerPhoneNumber`) VALUES
+(1111, 'Alex Jones', 122),
+(2220, 'Jane Smith', 99),
+('3330', 'Ali Fang', '889');
+                          
 
 
 CREATE TABLE `orderline_t` (
