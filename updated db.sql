@@ -54,9 +54,9 @@ CREATE TABLE `customer_t` (
 
 
 INSERT INTO `customer_t` (`CustomerID`, `CustomerName', `id`, `CustomerPhoneNumber`) VALUES
-('1111', 'Alex Jones', 'aj@customer.com', '1',  '122'),
-('2220', 'Jane Smith', 'jsmith22@customer.com', '2', '99'),
-('3330', 'Ali Fang', 'afang@companyx.com', '10', '889');
+('1111', 'Alex Jones', '1',  '122'),
+('2220', 'Jane Smith', '2', '99'),
+('3330', 'Ali Fang', '3', '889');
 
 
 CREATE TABLE `orderline_t` (
