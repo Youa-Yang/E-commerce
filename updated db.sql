@@ -5,8 +5,7 @@ CREATE TABLE `billingaddress_t` (
   `CustomerCity` varchar(20) NOT NULL,
   `CustomerState` char(2) NOT NULL,
   `CustomerZipCode` varchar(10) NOT NULL,
-  `CustomerID` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `CustomerID` decimal(11,0) NOT NULL);
 
 
 INSERT INTO `billingaddress_t` (`BillingAddressID`, `CustomerStreet`, `CustomerCity`, `CustomerState`, `CustomerZipCode`, `CustomerID`) VALUES
@@ -50,16 +49,14 @@ INSERT INTO `color_t` (`ColorID`, `Color`) VALUES
 CREATE TABLE `customer_t` (
   `CustomerID` decimal(11,0) NOT NULL,
   `CustomerName` varchar(40) NOT NULL,
-  `CustomerEmail` varchar(80) NOT NULL,
-  `CustomerPassword` varchar(20) NOT NULL,
-  `CustomerPhoneNumber` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `id` decimal(11,0) NOT NULL,
+  `CustomerPhoneNumber` decimal(11,0) NOT NULL);
 
 
-INSERT INTO `customer_t` (`CustomerID`, `CustomerName`, `CustomerEmail`, `CustomerPassword`, `CustomerPhoneNumber`) VALUES
-('1111', 'Alex Jones', 'aj@customer.com', 'password1111', '1'),
-('2220', 'Jane Smith', 'jsmith22@customer.com', 'password2220', '99'),
-('3330', 'Ali Fang', 'afang@companyx.com', 'password1', '889');
+INSERT INTO `customer_t` (`CustomerID`, `CustomerName', `id`, `CustomerPhoneNumber`) VALUES
+('1111', 'Alex Jones', 'aj@customer.com', '1',  '122'),
+('2220', 'Jane Smith', 'jsmith22@customer.com', '2', '99'),
+('3330', 'Ali Fang', 'afang@companyx.com', '10', '889');
 
 
 CREATE TABLE `orderline_t` (
@@ -67,7 +64,7 @@ CREATE TABLE `orderline_t` (
   `ProductQuantity` decimal(5,0) NOT NULL,
   `ProductID` decimal(11,0) NOT NULL,
   `OrderID` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `orderline_t` (`OrderLineID`, `ProductQuantity`, `ProductID`, `OrderID`) VALUES
@@ -84,7 +81,7 @@ CREATE TABLE `order_t` (
   `OrderDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `OrderStatus` varchar(10) NOT NULL,
   `CustomerID` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `order_t` (`OrderID`, `OrderDate`, `OrderStatus`, `CustomerID`) VALUES
@@ -106,7 +103,7 @@ CREATE TABLE `product_t` (
   `CategoryID` decimal(2,0) NOT NULL,
   `ColorID` decimal(2,0) NOT NULL,
   `SizeID` decimal(2,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `product_t` (`ProductID`, `ProductDescription`, `ProductSize`, `ProductPrice`, `ProductColor`, `ProductAvailableQuantity`, `ProductSKUCode`, `ProductImageFileName`, `CategoryID`, `ColorID`, `SizeID`) VALUES
@@ -124,7 +121,7 @@ CREATE TABLE `shippingaddress_t` (
   `CustomerState` char(2) NOT NULL,
   `CustomerZipCode` varchar(10) NOT NULL,
   `CustomerID` decimal(11,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `shippingaddress_t` (`ShippingAddressID`, `CustomerStreet`, `CustomerCity`, `CustomerState`, `CustomerZipCode`, `CustomerID`) VALUES
@@ -140,7 +137,7 @@ INSERT INTO `shippingaddress_t` (`ShippingAddressID`, `CustomerStreet`, `Custome
 CREATE TABLE `size_t` (
   `SizeID` decimal(2,0) NOT NULL,
   `Size` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 
 INSERT INTO `size_t` (`SizeID`, `Size`) VALUES
