@@ -6,7 +6,7 @@
       <div class="article-metadata">
         <a class="mr-2" href="#">{{ product['ProductID']}} {{ product['ProductDescription']}} </a>
         <div>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('add_cart', orderId = cart_item.OrderID, productId=cart_item.ProductID) }}">Add to Cart</a>
+         <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('order_product',productId=product.ProductID) }}">Add to Cart</a>
           </div>
       </div>
 
