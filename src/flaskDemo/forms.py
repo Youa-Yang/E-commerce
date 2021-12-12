@@ -57,7 +57,8 @@ class ProductForm(FlaskForm):
     size = SelectField("Size", choices=sizes_choice);
     category = SelectField("Category", choices=categories_choice);    
     submit = SubmitField('Add product')
-   class UpdateAccountForm(FlaskForm):
+    
+ class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
