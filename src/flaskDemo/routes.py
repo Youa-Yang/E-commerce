@@ -173,3 +173,35 @@ def update_product(productId):
         form.price.data = product.ProductPrice
     return render_template('add_product.html', title='Update Product',
                            form=form, legend='Update Product')    
+
+@app.route("/product/<productId>/order", methods=['GET', 'POST'])
+@login_required
+def order_product(productId):
+    product = Product_T.query.get_or_404(productId);
+  
+    form = CreateOrderForm()
+    order1 = Order_T()
+    orderLine = OrderLine_T()
+    if form.validate_on_submit():
+        order1.OrderID = 107
+        order1.OrderDate = datetime.utcnow()
+        order1.CustomerID = 3330
+        db.session.add(order1)
+        db.session.commit()
+
+        
+        orderLine.OrderLineID = 1009
+        orderLine.ProductQuantity = form.quantity.data
+        orderLine.ProductID = productId
+        orderLine.OrderID = order1.OrderID
+        db.session.add(orderLine)
+        db.session.commit()
+        flash('The product has been added to your cart!', 'success')
+        return redirect(url_for('home', productId=product.ProductID))
+    elif request.method == 'GET':
+        form.quantity.data = 0
+        form.size.data = product.SizeID
+        order1.OrderStatus = "Processing"
+    return render_template('create_order.html', title='Buy Product',
+                           form=form, legend='Buy Product')   
+
