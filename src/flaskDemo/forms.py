@@ -57,3 +57,21 @@ class ProductForm(FlaskForm):
     size = SelectField("Size", choices=sizes_choice);
     category = SelectField("Category", choices=categories_choice);    
     submit = SubmitField('Add product')
+    class UpdateProductForm(FlaskForm):
+    productName = TextAreaField('Product Description', validators=[DataRequired()])
+    image = FileField('Product Image', validators=[FileAllowed(['jpg', 'png'])])
+    price = FloatField('Product price', validators=[DataRequired()]) 
+    submit = SubmitField('Update product')
+
+class UpdateProductForm(FlaskForm):
+    productName = TextAreaField('Product Description', validators=[DataRequired()])
+    image = FileField('Product Image', validators=[FileAllowed(['jpg', 'png'])])
+    price = FloatField('Product price', validators=[DataRequired()]) 
+    submit = SubmitField('Update product')
+    
+    
+class CreateOrderForm(FlaskForm):
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    size = SelectField("Size", choices=sizes_choice);
+    productColor = StringField('Product Color', validators=[DataRequired()])
+    submit = SubmitField('Add to cart') 
