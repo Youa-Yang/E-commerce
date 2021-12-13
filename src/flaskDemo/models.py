@@ -5,7 +5,6 @@ from functools import partial
 from sqlalchemy import orm
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import backref
-from flask_migrate import Migrate
 
 db.Model.metadata.reflect(db.engine)
 
