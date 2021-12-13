@@ -4,9 +4,10 @@ from PIL import Image
 from sqlalchemy import func
 from flask import render_template, url_for, flash, redirect, request
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm,AddToCartForm, CartUpdateForm
+from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm,CreateOrderForm,UpdateProductForm
 from flaskDemo.models import User, Post,Customer_T,Order_T,Product_T,OrderLine_T,BillingAddress_T,ShippingAddress_T,Category_T
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import datetime
 
 @app.route("/")
 @app.route("/home")
@@ -25,9 +26,6 @@ def homeAdmin():
     #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
     #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
     return render_template('homeAdmin.html', outString = results)
-
-    
-
 
 @app.route("/about")
 def about():
@@ -105,27 +103,29 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-#customer view
+
 @app.route("/product/<productId>")
 @login_required
 def product(productId):
     product = Product_T.query.get_or_404(productId);
     return render_template('product.html',title=str(product.ProductDescription)+"_"
                            +str(productId),product=product)
-
-
-#admin view
+                           
+                           
 @app.route("/productAdmin/<productId>")
 @login_required
 def productAdmin(productId):
     product = Product_T.query.get_or_404(productId);
     return render_template('productAdmin.html',title=str(product.ProductDescription)+"_"
-                           +str(productId),product=product)  
+                           +str(productId),product=product)                           
+
+
 
 @app.route("/productAdmin/<productId>/delete", methods=['POST'])
 @login_required
 def delete_product(productId):
     product = Product_T.query.get_or_404(productId);
+    
     db.session.delete(product)
     db.session.commit()
     flash('The product has been removed from the project', 'success')
@@ -139,8 +139,8 @@ def add_product():
    # max_id = Product_T.query(func.max(Product_T.ProductID))
     if form.validate_on_submit():
         #max_id = Product_T.query(func.max(Product_T.ProductID))
-        product = Product_T(ProductID = 8,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
-        ProductAvailableQuantity=form.quantity.data, ProductSize = form.size.data,
+        product = Product_T(ProductID = 7,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
+        ProductAvailableQuantity=form.quantity.data, SizeID = form.size.data,
         ProductPrice= form.price.data, CategoryID = form.category.data,ProductImageFileName = form.image.data);
         db.session.add(product)
         db.session.commit()
@@ -161,18 +161,19 @@ def customers():
 def update_product(productId):
     product = Product_T.query.get_or_404(productId);
 
-    form = ProductForm()
+    form = UpdateProductForm()
     if form.validate_on_submit():
         product.ProductDescription = form.productName.data
         product.ProductPrice = form.price.data
         db.session.commit()
         flash('Your product has been updated!', 'success')
-        return redirect(url_for('product', productId=product.ProductID))
+        return redirect(url_for('productAdmin', productId=product.ProductID))
     elif request.method == 'GET':
         form.productName.data = product.ProductDescription
         form.price.data = product.ProductPrice
-    return render_template('add_product.html', title='Update Product',
+    return render_template('update_product.html', title='Update Product',
                            form=form, legend='Update Product')    
+
 
 @app.route("/product/<productId>/order", methods=['GET', 'POST'])
 @login_required
@@ -204,4 +205,5 @@ def order_product(productId):
         order1.OrderStatus = "Processing"
     return render_template('create_order.html', title='Buy Product',
                            form=form, legend='Buy Product')   
+
 

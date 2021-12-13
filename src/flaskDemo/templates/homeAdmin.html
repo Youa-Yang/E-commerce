@@ -64,10 +64,11 @@
           <article class="media content-section">
             <div class="media-body">
               <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.ProductColor }}</a>
+                <a class="mr-2" href="#">Price:  {{ post.ProductPrice }} </a>
               </div>
 				<h3><a class="article-title" href="{{ url_for('productAdmin', productId=post.ProductID) }}">{{ post.ProductDescription }}</a></h3>
-              <p class="article-content"> Price:  {{ post.ProductPrice }} </p>
+				<p class="article-content"> Quantity Available:  {{ post.ProductAvailableQuantity }} </p>
+			
             </div>
           </article>
            {% endfor %}

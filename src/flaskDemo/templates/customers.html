@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for row in outString %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ row.CustomerID}}</a>		  
+              <small class="text-muted">{{ row['CustomerName'] }} </small>		  
+            </div>
+		<h3><a class="article-title" >{{ row.CustomerName }} {{ row.CustomerEmail }} {{ row.CustomerPhoneNumber }}</a></h3>-->
+           
+          </div>
+        </article>
+     {% endfor %}
+{% endblock content %}

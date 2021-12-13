@@ -4,10 +4,11 @@
 <!--    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/default.jpg')}}"> -->
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="#">{{ product['ProductID']}} {{ product['ProductDescription']}} </a>
-        <div>
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_product', productId=product.ProductID, productDescription = product.ProductDescription) }}">Update</a>
-          <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+        <a class="mr-2" href="#">{{ cart['OrderID']}} {{ cart['ProductID']}} </a>
+        <small class="text-muted">{{now.strftime('%A %B, %d %Y')}}</small>
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_cart', orderId=cart.OrderID, productId = cart.ProductID) }}">Update</a>
+            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
           </div>
       </div>
 
@@ -18,14 +19,14 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Remove the product?</h5>
+          <h5 class="modal-title" id="deleteModalLabel">Remove product from the cart?</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('delete_product', productId=product.ProductID) }}" method="POST">
+          <form action="{{ url_for('delete_cart', orderid=cart.OrderID, productId = cart.ProductID) }}" method="POST">
             <input class="btn btn-danger" type="submit" value="Delete">
           </form>
         </div>
