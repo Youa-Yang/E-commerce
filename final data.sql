@@ -25,22 +25,11 @@ INSERT INTO color_t (ColorID, Color) VALUES
 (8, Purple);
 
 
-
-CREATE TABLE customer_t (
-  CustomerID decimal(11,0) NOT NULL,
-  CustomerName varchar(40) NOT NULL,
-  CustomerPhoneNumber decimal(11,0) NOT NULL);
-
-
-
 INSERT INTO customer_t (CustomerID, CustomerName, CustomerPhoneNumber) VALUES
 (3, Tom Thumb, 12345678901),
 (1111, Alex Jones, 122),
 (2220, Jane Smith, 99),
 (3330, Ali Fang, 889);
-
-
-
 
 
 INSERT INTO orderline_t (OrderLineID, ProductQuantity, ProductID, OrderID) VALUES
@@ -54,9 +43,6 @@ INSERT INTO orderline_t (OrderLineID, ProductQuantity, ProductID, OrderID) VALUE
 
 
 
-
-
-
 INSERT INTO order_t (OrderID, OrderDate, OrderStatus, CustomerID) VALUES
 (101, 2021-12-04 06:33:19, Completed, 3330),
 (102, 2021-12-04 06:33:19, Processing, 2220),
@@ -66,24 +52,12 @@ INSERT INTO order_t (OrderID, OrderDate, OrderStatus, CustomerID) VALUES
 
 
 
-
-
-
-
-
-
-
-
 INSERT INTO product_t (ProductID, ProductDescription, ProductSize, ProductPrice, ProductColor, ProductAvailableQuantity, ProductSKUCode, ProductImageFileName, CategoryID, ColorID, SizeID) VALUES
 (1, High-waisted mini skirt with elastic waistband., S, 50.25, Blue, 15, 123456, Image01, 1, 2, 2),
 (2, Mid-rise pants with side pockets and back false welt pockets. Front zip, metal hook, and interior button closure., M, 45.90, Blue, 15, 159753, Image02, 4, 2, 3),
 (3, Petite recycled lace trim long sleeve mini dress, L, 20.20, Blue, 15, 165412, Image03, 3, 2, 4),
 (4, Strap detail slip dress, S, 74.00, Yellow, 15, 147258, Image04, 3, 4, 2),
 (5, Full cut round neck sleeveless top, M, 85.89, Black, 15, 258369, Image05, 2, 6, 3);
-
-
-
-
 
 
 INSERT INTO shippingaddress_t (ShippingAddressID, CustomerStreet, CustomerCity, CustomerState, CustomerZipCode, CustomerID) VALUES
@@ -96,24 +70,12 @@ INSERT INTO shippingaddress_t (ShippingAddressID, CustomerStreet, CustomerCity, 
 (116, 333 Yellow Rd, Oz, KS, 72345, 3330);
 
 
-
-
-
 INSERT INTO size_t (SizeID, Size) VALUES
 (1, XS),
 (2, S),
 (3, M),
 (4, L),
 (5, XL);
-
-
-
-CREATE TABLE user (
-  id int(11) NOT NULL,
-  username varchar(20) NOT NULL,
-  email varchar(120) NOT NULL,
-  image_file varchar(20) NOT NULL,
-  password varchar(60) NOT NULL);
 
 
 INSERT INTO user (id, username, email, image_file, password) VALUES
