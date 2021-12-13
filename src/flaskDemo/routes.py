@@ -4,9 +4,10 @@ from PIL import Image
 from sqlalchemy import func
 from flask import render_template, url_for, flash, redirect, request
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm,AddToCartForm, CartUpdateForm
+from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm, CreateOrderForm
 from flaskDemo.models import User, Post,Customer_T,Order_T,Product_T,OrderLine_T,BillingAddress_T,ShippingAddress_T,Category_T
 from flask_login import login_user, current_user, logout_user, login_required
+from datetime import datetime
 
 @app.route("/")
 @app.route("/home")
@@ -57,6 +58,8 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
+        db.session.commit()
+        customer = Customer_T(CustomerID=4, CustomerName=form.customerName.data, CustomerPhoneNumber=form.customerPhoneNumber.data)
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
@@ -149,7 +152,7 @@ def add_product():
     return render_template('add_product.html', title='Add new product',
                            form=form, legend='New Product')
 
-@app.route("/")
+#@app.route("/")
 @app.route("/home")
 def customers():
     results = Customer_T.query.all()
@@ -185,7 +188,8 @@ def order_product(productId):
     if form.validate_on_submit():
         order1.OrderID = 107
         order1.OrderDate = datetime.utcnow()
-        order1.CustomerID = 3330
+        order1.CustomerID = 3
+        order1.OrderStatus = "Processing"
         db.session.add(order1)
         db.session.commit()
 
@@ -205,3 +209,11 @@ def order_product(productId):
     return render_template('create_order.html', title='Buy Product',
                            form=form, legend='Buy Product')   
 
+@app.route("/order_history/")
+@login_required
+def order_history():
+    results3 = User.query.join(Customer_T, Customer_T.CustomerID == User.id) \
+        .join(Order_T, Order_T.CustomerID == Customer_T.CustomerID).add_columns(Order_T.OrderID, Order_T.OrderStatus)\
+        .join(OrderLine_T, OrderLine_T.OrderID == Order_T.OrderID).add_columns(OrderLine_T.ProductQuantity)\
+        .join(Product_T, Product_T.ProductID == OrderLine_T.ProductID).add_columns(Product_T.ProductDescription);
+    return render_template('order_history.html', title='Order History', joined_m_n = results3)

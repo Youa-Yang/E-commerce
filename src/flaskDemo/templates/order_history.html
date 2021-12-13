@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+	  {% for row in joined_m_n %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="text-muted">Order ID {{ row.OrderID }} Order Status {{ row.OrderStatus }} Product Quantity {{ row.ProductQuantity }} Product Description {{ row.ProductDescription }}</small>
+            </div>
+           
+          </div>
+        </article>
+     {% endfor %}
+	
+{% endblock content %}

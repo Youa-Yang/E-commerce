@@ -5,6 +5,7 @@ from functools import partial
 from sqlalchemy import orm
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import backref
+from flask_migrate import Migrate
 
 db.Model.metadata.reflect(db.engine)
 
@@ -42,7 +43,8 @@ class Post(db.Model):
 
 class Customer_T(db.Model):
     __table__ = db.Model.metadata.tables['customer_t']
-
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    
 class Order_T(db.Model):
     __table__ = db.Model.metadata.tables['order_t']
 

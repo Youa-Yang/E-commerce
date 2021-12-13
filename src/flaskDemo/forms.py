@@ -20,6 +20,8 @@ for row in categories :
 
 
 class RegistrationForm(FlaskForm):
+    customerName = StringField('Full Name', validators=[DataRequired(), Length(min=2, max=40)])
+    customerPhoneNumber= IntegerField('Phone Number', validators=[DataRequired()])
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
@@ -58,7 +60,7 @@ class ProductForm(FlaskForm):
     category = SelectField("Category", choices=categories_choice);    
     submit = SubmitField('Add product')
     
- class UpdateAccountForm(FlaskForm):
+class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',

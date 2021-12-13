@@ -5,6 +5,34 @@
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Join Today</legend>
+				<div class="form-group">
+                    {{ form.customerName.label(class="form-control-label") }}
+
+                    {% if form.customerName.errors %}
+                        {{ form.customerName(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.customerName.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.customerName(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+				<div class="form-group">
+                    {{ form.customerPhoneNumber.label(class="form-control-label") }}
+
+                    {% if form.customerPhoneNumber.errors %}
+                        {{ form.customerPhoneNumber(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.customerPhoneNumber.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.customerPhoneNumber(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
                 <div class="form-group">
                     {{ form.username.label(class="form-control-label") }}
 
