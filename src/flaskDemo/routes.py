@@ -1,18 +1,51 @@
+import os
+import secrets
+from PIL import Image
+from sqlalchemy import func
 from flask import render_template, url_for, flash, redirect, request
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm
-from flaskDemo.models import User, Post
+from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccountForm,AddToCartForm, CartUpdateForm
+from flaskDemo.models import User, Post,Customer_T,Order_T,Product_T,OrderLine_T,BillingAddress_T,ShippingAddress_T,Category_T
 from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=products)
+    results = Product_T.query.all()
+    #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
+    #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
+    return render_template('home.html', outString = results)
+    
+
+
+@app.route("/")
+@app.route("/homeAdmin")
+def homeAdmin():
+    results = Product_T.query.all()
+    #results = Product_T.query.join(Category_T,Product_T.CategoryID == Category_T.CategoryType) \
+    #           .add_columns(Product_T.ProductDescription,Product_T.ProductPrice, Category_T.CategoryType) ;
+    return render_template('homeAdmin.html', outString = results)
+
+    
 
 
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn    
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -52,44 +85,123 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Account')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file, form=form)
 
-
+#customer view
 @app.route("/product/<productId>")
 @login_required
 def product(productId):
-    assign = Product_T.query.get_or_404(productId);
-    return render_template('assign.html',title=str(assign.ProductDescriprion)+"_"
-                           +str(productId),assign=assign, now=datetime.utcnow())
+    product = Product_T.query.get_or_404(productId);
+    return render_template('product.html',title=str(product.ProductDescription)+"_"
+                           +str(productId),product=product)
 
-@app.route("/view/<productId>/delete", methods=['POST'])
+
+#admin view
+@app.route("/productAdmin/<productId>")
+@login_required
+def productAdmin(productId):
+    product = Product_T.query.get_or_404(productId);
+    return render_template('productAdmin.html',title=str(product.ProductDescription)+"_"
+                           +str(productId),product=product)  
+
+@app.route("/productAdmin/<productId>/delete", methods=['POST'])
 @login_required
 def delete_product(productId):
-    empProject = Product_T.query.get_or_404(productId);
-    db.session.delete(empProject)
+    product = Product_T.query.get_or_404(productId);
+    db.session.delete(product)
     db.session.commit()
-    flash('The employee has been removed from the project', 'success')
-    return redirect(url_for('home'))
+    flash('The product has been removed from the project', 'success')
+    return redirect(url_for('homeAdmin'))
 
 
-@app.route("/assign/new", methods=['GET', 'POST'])
+@app.route("/product/new", methods=['GET', 'POST'])
 @login_required
-def add_product():   
-    form = AssignForm()       
+def add_product():
+    form = ProductForm()
+   # max_id = Product_T.query(func.max(Product_T.ProductID))
     if form.validate_on_submit():
-        assign = Works_On(essn=form.essn.data, pno=form.pno.data, hours=0)
-        db.session.add(assign)
+        #max_id = Product_T.query(func.max(Product_T.ProductID))
+        product = Product_T(ProductID = 8,ProductDescription=form.productName.data, ProductColor=form.productColor.data,
+        ProductAvailableQuantity=form.quantity.data, ProductSize = form.size.data,
+        ProductPrice= form.price.data, CategoryID = form.category.data,ProductImageFileName = form.image.data);
+        db.session.add(product)
         db.session.commit()
-        flash(f'You have assigned employee to the project!', 'success')
-        return redirect(url_for('home'))            
-    return render_template('assign_employee.html', title='New Assignment',
-                           form=form, legend='New Assignment')
+        flash('Your product has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('add_product.html', title='Add new product',
+                           form=form, legend='New Product')
 
 @app.route("/")
 @app.route("/home")
 def customers():
     results = Customer_T.query.all()
     return render_template('customers.html', outString = results)
+
+
+@app.route("/product/<productId>/update", methods=['GET', 'POST'])
+@login_required
+def update_product(productId):
+    product = Product_T.query.get_or_404(productId);
+
+    form = ProductForm()
+    if form.validate_on_submit():
+        product.ProductDescription = form.productName.data
+        product.ProductPrice = form.price.data
+        db.session.commit()
+        flash('Your product has been updated!', 'success')
+        return redirect(url_for('product', productId=product.ProductID))
+    elif request.method == 'GET':
+        form.productName.data = product.ProductDescription
+        form.price.data = product.ProductPrice
+    return render_template('add_product.html', title='Update Product',
+                           form=form, legend='Update Product')    
+
+@app.route("/product/<productId>/order", methods=['GET', 'POST'])
+@login_required
+def order_product(productId):
+    product = Product_T.query.get_or_404(productId);
+  
+    form = CreateOrderForm()
+    order1 = Order_T()
+    orderLine = OrderLine_T()
+    if form.validate_on_submit():
+        order1.OrderID = 107
+        order1.OrderDate = datetime.utcnow()
+        order1.CustomerID = 3330
+        db.session.add(order1)
+        db.session.commit()
+
+        
+        orderLine.OrderLineID = 1009
+        orderLine.ProductQuantity = form.quantity.data
+        orderLine.ProductID = productId
+        orderLine.OrderID = order1.OrderID
+        db.session.add(orderLine)
+        db.session.commit()
+        flash('The product has been added to your cart!', 'success')
+        return redirect(url_for('home', productId=product.ProductID))
+    elif request.method == 'GET':
+        form.quantity.data = 0
+        form.size.data = product.SizeID
+        order1.OrderStatus = "Processing"
+    return render_template('create_order.html', title='Buy Product',
+                           form=form, legend='Buy Product')   
+

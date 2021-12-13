@@ -57,3 +57,12 @@ class BillingAddress_T(db.Model):
 
 class ShippingAddress_T(db.Model):
     __table__ = db.Model.metadata.tables['shippingaddress_t']
+
+class Category_T(db.Model):
+    __table__ = db.Model.metadata.tables['category_t']
+
+class Size_T(db.Model):
+    __table__ = db.Model.metadata.tables['size_t']
+
+class Color_T(db.Model):
+    __table__ = db.Model.metadata.tables['color_t']
