@@ -17,8 +17,7 @@ INSERT INTO `billingaddress_t` (`BillingAddressID`, `CustomerStreet`, `CustomerC
 
 CREATE TABLE `category_t` (
   `CategoryID` decimal(2,0) NOT NULL,
-  `CategoryType` varchar(20) NOT NULL
-);
+  `CategoryType` varchar(20) NOT NULL);
 
 
 INSERT INTO `category_t` (`CategoryID`, `CategoryType`) VALUES
@@ -31,8 +30,7 @@ INSERT INTO `category_t` (`CategoryID`, `CategoryType`) VALUES
 
 CREATE TABLE `color_t` (
   `ColorID` decimal(2,0) NOT NULL,
-  `Color` varchar(20) NOT NULL
-);
+  `Color` varchar(20) NOT NULL);
 
 
 INSERT INTO `color_t` (`ColorID`, `Color`) VALUES
@@ -64,8 +62,7 @@ CREATE TABLE `orderline_t` (
   `OrderLineID` decimal(11,0) NOT NULL,
   `ProductQuantity` decimal(5,0) NOT NULL,
   `ProductID` decimal(11,0) NOT NULL,
-  `OrderID` decimal(11,0) NOT NULL
-);
+  `OrderID` decimal(11,0) NOT NULL);
 
 
 INSERT INTO `orderline_t` (`OrderLineID`, `ProductQuantity`, `ProductID`, `OrderID`) VALUES
@@ -81,8 +78,7 @@ CREATE TABLE `order_t` (
   `OrderID` decimal(11,0) NOT NULL,
   `OrderDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `OrderStatus` varchar(10) NOT NULL,
-  `CustomerID` decimal(11,0) NOT NULL
-);
+  `CustomerID` decimal(11,0) NOT NULL);
 
 
 INSERT INTO `order_t` (`OrderID`, `OrderDate`, `OrderStatus`, `CustomerID`) VALUES
@@ -103,8 +99,7 @@ CREATE TABLE `product_t` (
   `ProductImageFileName` varchar(40) NOT NULL,
   `CategoryID` decimal(2,0) NOT NULL,
   `ColorID` decimal(2,0) NOT NULL,
-  `SizeID` decimal(2,0) NOT NULL
-);
+  `SizeID` decimal(2,0) NOT NULL);
 
 
 INSERT INTO `product_t` (`ProductID`, `ProductDescription`, `ProductSize`, `ProductPrice`, `ProductColor`, `ProductAvailableQuantity`, `ProductSKUCode`, `ProductImageFileName`, `CategoryID`, `ColorID`, `SizeID`) VALUES
@@ -121,8 +116,7 @@ CREATE TABLE `shippingaddress_t` (
   `CustomerCity` varchar(20) NOT NULL,
   `CustomerState` char(2) NOT NULL,
   `CustomerZipCode` varchar(10) NOT NULL,
-  `CustomerID` decimal(11,0) NOT NULL
-);
+  `CustomerID` decimal(11,0) NOT NULL);
 
 
 INSERT INTO `shippingaddress_t` (`ShippingAddressID`, `CustomerStreet`, `CustomerCity`, `CustomerState`, `CustomerZipCode`, `CustomerID`) VALUES
