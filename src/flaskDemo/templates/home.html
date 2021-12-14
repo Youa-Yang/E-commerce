@@ -3,19 +3,15 @@
 	<div class="row row-cols-1 row-cols-sm-2 row-md-3 g-3">
 		{% for post in outString %}
 		<div class="col">				
-			<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" article-title="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{ post.ProductColor}}</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".2em">{{ post.CategoryID }}</text></svg>
+			<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" article-title="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>{{ post.ProductColor}}</title><rect width="100%" height="100%" fill="#c79c8f"></rect><text x="50%" y="50%" fill="#eceeef" dy=".2em">{{ post.CategoryID }}</text></svg>
 			<div class="card-body">
 				<div class="article-metadata">
 					<small class="text-muted">{{ post.ProductColor}}</small>
 					<p><a class="article-title" href="{{ url_for('product', productId=post.ProductID) }}">{{ post.ProductDescription }}</a></p>
 				</div>
-				<div class="d-flex justify-content-between align-items-center">
-					<div class="btn-group">		
-						<button type="button" href="{{ url_for('product', productId=post.ProductID) }}"class="btn btn-outline-primary">Buy</button>					
-					</div>
-					<div class="btn-group">		
-						<button type="button" href="{{ url_for('product', productId=post.ProductID) }}"class="btn btn-outline-primary">View</button>					
-					</div>
+				<div class="d-flex justify-content-between align-items-left">
+					<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+					<button type="button" class="btn btn-sm btn-outline-secondary">Buy</button>
 					<p class="article-content"> Price:  {{ post.ProductPrice }} </p>
 				</div>								 
 			</div>				

@@ -8,6 +8,7 @@ from flaskDemo.forms import RegistrationForm, LoginForm ,ProductForm,UpdateAccou
 from flaskDemo.models import User, Post,Customer_T,Order_T,Product_T,OrderLine_T,BillingAddress_T,ShippingAddress_T,Category_T
 from flask_login import login_user, current_user, logout_user, login_required
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 @app.route("/")
 @app.route("/home")
@@ -132,10 +133,12 @@ def view_ordersAdmin():
 @login_required
 def delete_product(productId):
     product = Product_T.query.get_or_404(productId);
-    
-    db.session.delete(product)
-    db.session.commit()
-    flash('The product has been removed from the project', 'success')
+    try:
+        db.session.delete(product)
+        db.session.commit()
+        flash('The product has been removed from the inventory', 'success')
+    except IntegrityError:
+            flash('The product can not be deleted from inventory', 'danger')        
     return redirect(url_for('homeAdmin'))
 
 
