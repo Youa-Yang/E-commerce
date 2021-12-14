@@ -66,7 +66,7 @@ CustomerStreet VARCHAR(20) NOt NULL,
 CustomerCity VARCHAR(20) NOT NULL,
 CustomerState CHAR(2) NOT NULL,
 CustomerZipCode VARCHAR(10) NOT NULL,
-CustomerID NUMERIC(11,0) NOt NULL,
+id NUMERIC(11,0) NOt NULL,
 CONSTRAINT BillingAddressID_PK PRIMARY KEY(BillingAddressID),
 CONSTRAINT id_FK1 FOREIGN KEY (id) REFERENCES User_T(id));
 
@@ -76,6 +76,6 @@ CustomerStreet VARCHAR(20) NOt NULL,
 CustomerCity VARCHAR(20) NOT NULL,
 CustomerState CHAR(2) NOT NULL,
 CustomerZipCode VARCHAR(10) NOT NULL,
-CustomerID NUMERIC(11,0) NOt NULL,
+id NUMERIC(11,0) NOt NULL,
 CONSTRAINT ShippingAddressID_PK PRIMARY KEY(ShippingAddressID),
 CONSTRAINT id_FK FOREIGN KEY (id) REFERENCES User_T(id));
