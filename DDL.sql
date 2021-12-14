@@ -35,9 +35,7 @@ CONSTRAINT SizeID_PK PRIMARY KEY (SizeID));
 CREATE TABLE Product_T
 (ProductID  NUMERIC(11,0) NOT NULL,
 ProductDescription VARCHAR(200) NOT NULL,
-ProductSize VARCHAR(3) NOT NULL,
 ProductPrice NUMERIC(6,2) NOT NULL,
-ProductColor VARCHAR(20) NOT NULL,
 ProductAvailableQuantity NUMERIC (3) NOT NULL,
 ProductSKUCode VARCHAR(15) NULL,
 ProductImageFileName VARCHAR(40) NULL,
