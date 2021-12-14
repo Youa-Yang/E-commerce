@@ -4,21 +4,6 @@ CustomerName VARCHAR(40) NOT NULL,
 CustomerPhoneNumber NUMERIC(11) NOT NULL,
 CONSTRAINT Customer_PK PRIMARY KEY (CustomerID));
 
-CREATE TABLE user (
-id int(11) NOT NULL,
-username varchar(20) NOT NULL,
-email varchar(120) NOT NULL,
-image_file varchar(20) NOT NULL,
-password varchar(60) NOT NULL);
-
-CREATE TABLE post (
-id int(11) NOT NULL,
-title varchar(100) NOT NULL,
-date_posted datetime NOT NULL,
-content text NOT NULL,
-user_id int(11) NOT NULL);
- 
-
 CREATE TABLE Order_T
 (OrderID NUMERIC(11,0) NOT NULL,
 OrderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
