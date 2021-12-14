@@ -117,8 +117,15 @@ def product(productId):
 def productAdmin(productId):
     product = Product_T.query.get_or_404(productId);
     return render_template('productAdmin.html',title=str(product.ProductDescription)+"_"
-                           +str(productId),product=product)                           
+                           +str(productId),product=product)   
 
+@app.route("/")
+@app.route("/orders_admin")
+def view_ordersAdmin():
+    results01 = Customer_T.query.join(Order_T, Customer_T.CustomerID == Order_T.CustomerID).add_columns(Customer_T.CustomerID,Customer_T.CustomerName) \
+        .join(OrderLine_T, OrderLine_T.OrderID == Order_T.OrderID).add_columns(OrderLine_T.OrderID,Order_T.OrderStatus)\
+        .join(Product_T, Product_T.ProductID == OrderLine_T.ProductID).add_columns(Product_T.ProductDescription);
+    return render_template('ordersAdmin.html', title='All orders', joined_m_n = results01)                     
 
 
 @app.route("/productAdmin/<productId>/delete", methods=['POST'])
@@ -206,4 +213,12 @@ def order_product(productId):
     return render_template('create_order.html', title='Buy Product',
                            form=form, legend='Buy Product')   
 
+@app.route("/order_history/")
+@login_required
+def order_history():
+    results3 = User.query.join(Customer_T, Customer_T.CustomerID == User.id) \
+        .join(Order_T, Order_T.CustomerID == Customer_T.CustomerID).add_columns(Order_T.OrderID, Order_T.OrderStatus)\
+        .join(OrderLine_T, OrderLine_T.OrderID == Order_T.OrderID).add_columns(OrderLine_T.ProductQuantity)\
+        .join(Product_T, Product_T.ProductID == OrderLine_T.ProductID).add_columns(Product_T.ProductDescription);
+    return render_template('order_history.html', title='Order History', joined_m_n = results3)
 

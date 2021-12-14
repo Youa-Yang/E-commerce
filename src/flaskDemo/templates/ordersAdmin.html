@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+	{% for row in joined_m_n %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ row.OrderID}}</a> <br/>   
+				</div>
+				<div>
+				<p>CustomerID: {{ row.CustomerID }} </p>
+				<p>Customer Name: {{ row.CustomerName }}</p>
+				<p>OrderID:  {{ row.OrderID }}  </p>
+				<p>Ordered Product: {{row.ProductDescription}}</p>
+				<p>Order Status:{{row.OrderStatus}}</p>
+				  <a class="btn btn-secondary btn-sm mt-1 mb-1" href="#">Update</a>				    
+					{% if row.OrderStatus !='Processing' %}
+						<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+					{% else %}
+						<p> The order is in the Processes and can not be deleted.</p>
+					{%endif%}
+				  
+			  </div> 
+          </div>
+        </article>
+     {% endfor %}
+  <!-- Modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Remove the product?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="#" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
